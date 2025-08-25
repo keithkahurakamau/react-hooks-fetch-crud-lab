@@ -9,7 +9,9 @@ export const handlers = [
   }),
   rest.post("http://localhost:4000/questions", (req, res, ctx) => {
     const id = questions[questions.length - 1]?.id + 1 || 1;
-    const question = { id, ...req.body };
+    const { answer1, answer2, answer3, answer4, ...restBody } = req.body;
+    const answers = [answer1, answer2, answer3, answer4].filter(answer => answer !== "");
+    const question = { id, ...restBody, answers };
     questions.push(question);
     return res(ctx.json(question));
   }),
